@@ -4,6 +4,7 @@
   "description": "BIP39 Mnemonics implemented for Bitcore.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
+  "private": "false",
   "scripts": {
     "test": "gulp test",
     "test:ci": "npm run test",

@@ -1,10 +1,10 @@
 {
   "name": "@bitcoin-computer/bitcore-mnemonic-ltc",
-  "version": "8.25.36",
+  "version": "8.25.38",
   "description": "BIP39 Mnemonics implemented for Bitcore.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
-  "private": "false",
+  "private": false,
   "scripts": {
     "test": "gulp test",
     "test:ci": "npm run test",

@@ -13,14 +13,14 @@ BIP39 Mnemonics for bitcore
 This library is distributed in both the npm packaging systems.
 
 ```sh
-npm install bitcore-lib  #this to install bitcore-lib since it is a peerDependecy
-npm install bitcore-mnemonic
+npm install bitcore-lib-ltc  #this to install bitcore-lib-ltc since it is a peerDependecy
+npm install bitcore-mnemonic-ltc
 ```
 
 There are many examples of how to use it on the developer guide [section for mnemonic](./docs/index.md). For example, the following code would generate a new random mnemonic code and convert it to a `HDPrivateKey`.
 
 ```javascript
-var Mnemonic = require('bitcore-mnemonic');
+var Mnemonic = require('bitcore-mnemonic-ltc');
 var code = new Mnemonic(Mnemonic.Words.SPANISH);
 code.toString(); // natal hada sutil año sólido papel jamón combate aula flota ver esfera...
 var xpriv = code.toHDPrivateKey();

@@ -1,9 +1,10 @@
 {
   "name": "@bitcoin-computer/bitcore-lib-ltc",
-  "version": "8.25.36",
+  "version": "8.25.37",
   "description": "A pure and powerful JavaScript Litecoin library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
+  "private": false,
   "scripts": {
     "test": "gulp --tasks && gulp test",
     "test:ci": "npm run test",

@@ -1,5 +1,5 @@
 {
-  "name": "bitcore-lib-ltc",
+  "name": "@bitcoin-computer/bitcore-lib-ltc",
   "version": "8.25.36",
   "description": "A pure and powerful JavaScript Litecoin library.",
   "author": "BitPay <dev@bitpay.com>",
@@ -59,6 +59,10 @@
     {
       "name": "Wei Lu",
       "email": "luwei.here@gmail.com"
+    },
+    {
+      "name": "Bitcoin Computer Devs",
+      "email": "clemens@bitcoincomputer.io"
     }
   ],
   "keywords": [
@@ -80,7 +84,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/litecoin-project/litecore-lib.git"
+    "url": "https://github.com/bitcoin-computer/bitcore.git"
   },
   "browser": {
     "request": "browser-request"

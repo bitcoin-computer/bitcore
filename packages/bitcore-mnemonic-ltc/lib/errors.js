@@ -15,4 +15,4 @@ var spec = {
   }]
 };
 
-module.exports = require('bitcore-lib-ltc').errors.extend(spec);
+module.exports = require('@bitcoin-computer/bitcore-lib-ltc').errors.extend(spec);

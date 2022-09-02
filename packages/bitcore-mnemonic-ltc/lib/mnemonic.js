@@ -1,6 +1,6 @@
 'use strict';
 
-const bitcore = require('bitcore-lib-ltc');
+const bitcore = require('@bitcoin-computer/bitcore-lib-ltc');
 const BN = bitcore.crypto.BN;
 const unorm = require('unorm');
 const _ = bitcore.deps._;

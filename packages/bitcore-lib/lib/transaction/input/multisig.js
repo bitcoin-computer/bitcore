@@ -29,7 +29,7 @@ function MultiSigInput(input, pubkeys, threshold, signatures, opts) {
   } else  {
     this.publicKeys = _.sortBy(pubkeys, function(publicKey) { return publicKey.toString('hex'); });
   }
-  $.checkState(Script.buildMultisigOut(this.publicKeys, threshold).equals(this.output.script),
+  $.checkState(Script.buildMultisigOut(this.publicKeys, threshold, opts).equals(this.output.script),
     'Provided public keys don\'t match to the provided output script');
   this.publicKeyIndex = {};
   _.each(this.publicKeys, function(publicKey, index) {

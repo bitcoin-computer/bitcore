@@ -4,7 +4,7 @@ var chai = require('chai');
 var should = chai.should();
 
 var Mnemonic = require('..');
-var errors = require('bitcore-lib-ltc').errors;
+var errors = require('@bitcoin-computer/bitcore-lib-ltc').errors;
 var bip39_vectors = require('./data/fixtures.json');
 const unorm = require('unorm');
 

@@ -44,11 +44,11 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "bitcore-lib-ltc": "8.25.36",
+    "@bitcoin-computer/bitcore-lib-ltc": "8.25.37",
     "unorm": "^1.4.1"
   },
   "peerDependencies": {
-    "bitcore-lib-ltc": "8.25.36"
+    "@bitcoin-computer/bitcore-lib-ltc": "8.25.37"
   },
   "gitHead": "012cc0216a9bc6b195035855bd17149bad41acd1"
 }

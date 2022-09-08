@@ -91,11 +91,11 @@
     "request": "browser-request"
   },
   "dependencies": {
+    "@bitcoin-computer/bn.js": "^5.2.3",
+    "@bitcoin-computer/elliptic": "^6.5.5",
     "bech32": "=2.0.0",
-    "bn.js": "=4.11.8",
     "bs58": "^4.0.1",
     "buffer-compare": "=1.1.1",
-    "elliptic": "^6.5.3",
     "inherits": "=2.0.1",
     "lodash": "^4.17.20",
     "scryptsy": "2.1.0"

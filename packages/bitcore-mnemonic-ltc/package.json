@@ -1,6 +1,6 @@
 {
   "name": "@bitcoin-computer/bitcore-mnemonic-ltc",
-  "version": "8.25.41",
+  "version": "8.25.42",
   "description": "BIP39 Mnemonics implemented for Bitcore.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
@@ -44,11 +44,11 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "@bitcoin-computer/bitcore-lib-ltc": "^8.25.41",
+    "@bitcoin-computer/bitcore-lib-ltc": "^8.25.42",
     "unorm": "^1.4.1"
   },
   "peerDependencies": {
-    "@bitcoin-computer/bitcore-lib-ltc": "^8.25.41"
+    "@bitcoin-computer/bitcore-lib-ltc": "^8.25.42"
   },
   "gitHead": "012cc0216a9bc6b195035855bd17149bad41acd1"
 }

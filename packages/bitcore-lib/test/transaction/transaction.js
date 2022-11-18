@@ -22,7 +22,7 @@ var errors = bitcore.errors;
 
 var transactionVector = require('../data/tx_creation');
 
-describe.only('Transaction', function() {
+describe('Transaction', function() {
 
   it('should serialize and deserialize correctly a given transaction', function() {
     var transaction = new Transaction(tx_1_hex);

@@ -22,7 +22,7 @@ var errors = bitcore.errors;
 
 var transactionVector = require('../data/tx_creation');
 
-describe('Transaction', function() {
+describe.only('Transaction', function() {
 
   it('should serialize and deserialize correctly a given transaction', function() {
     var transaction = new Transaction(tx_1_hex);
@@ -162,6 +162,38 @@ describe('Transaction', function() {
     tx.inputs[0].should.be.instanceof(bitcore.Transaction.Input.PublicKey);
     tx.inputs[0].output.satoshis.should.equal(5000000000);
     tx.inputs[0].output.script.toHex().should.equal('2103b1c65d65f1ff3fe145a4ede692460ae0606671d04e8449e99dd11c66ab55a7feac');
+  });
+
+  it('fromObject with bare-multisig previous outputs', function() {
+    var tx = bitcore.Transaction({
+      hash: 'dbdd5e4a92fc5ad7706753f6de254b33c8f15c57cefa09a085d7eb7f76805327',
+      version: 1,
+      inputs: [
+        {
+          prevTxId: '0d89aa2456c0e232f44045c668bdf2f59a96b90ab2d0e3340f381a6e5e5d8353',
+          outputIndex: 0,
+          sequenceNumber: 4294967295,
+          script: '00483045022100b30ec93d3d1c548754a96bc8550179113537a3701ff1c0bc9dd50509e4949c0f02201991da89a1cae654d19875bc4fd3e3f5f34d718cbe138e664415be538b5986eb01',
+          scriptString: 'OP_0 72 0x3045022100b30ec93d3d1c548754a96bc8550179113537a3701ff1c0bc9dd50509e4949c0f02201991da89a1cae654d19875bc4fd3e3f5f34d718cbe138e664415be538b5986eb01',
+          threshold: 1,
+          publicKeys: ['02b261495a8a64d592fc85ffe66a1b3c4a090fd9ad990990d1e86d03c1c583258f'],
+          output: {
+            satoshis: 15460,
+            script: 'OP_1 33 0x02b261495a8a64d592fc85ffe66a1b3c4a090fd9ad990990d1e86d03c1c583258f OP_1 OP_CHECKMULTISIG'
+          }
+        }
+      ],
+      outputs: [
+        {
+          satoshis: 15460,
+          script: '512102b261495a8a64d592fc85ffe66a1b3c4a090fd9ad990990d1e86d03c1c583258f51ae'
+        }
+      ],
+      nLockTime: 139
+    });
+    tx.inputs[0].should.be.instanceof(bitcore.Transaction.Input.MultiSig);
+    tx.inputs[0].output.satoshis.should.equal(15460);
+    tx.inputs[0].output.script.toHex().should.equal('512102b261495a8a64d592fc85ffe66a1b3c4a090fd9ad990990d1e86d03c1c583258f51ae');
   });
 
   it('toObject/fromObject with witness, signatures and custom fee', function() {

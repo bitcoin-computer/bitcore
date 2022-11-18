@@ -442,6 +442,8 @@ Transaction.prototype.fromObject = function fromObject(arg, opts) {
       txin = new Input.PublicKeyHash(input);
     } else if (script.isPublicKeyOut()) {
       txin = new Input.PublicKey(input);
+    } else if (script.isMultisigOut() && input.publicKeys && input.threshold){
+      txin = new MultiSigInput(input, input.publicKeys, input.threshold, input.signatures, opts)
     } else {
       throw new errors.Transaction.Input.UnsupportedScript(input.output.script);
     }

@@ -533,8 +533,9 @@ Script.prototype.isDataOut = function() {
 /**
  * Retrieve the associated data for this script.
  * In the case of a pay to public key hash, P2SH, P2WSH, or P2WPKH, return the hash.
+ * In the case of bare multisig, return an array with the public keys.
  * In the case of a standard OP_RETURN, return the data
- * @returns {Buffer}
+ * @returns {Buffer | publicKeys[] | undefined} The associated data
  */
 Script.prototype.getData = function() {
   if (this.isDataOut() || this.isScriptHashOut() || this.isWitnessScriptHashOut() || this.isWitnessPublicKeyHashOut() || this.isTaproot()) {
@@ -543,6 +544,13 @@ Script.prototype.getData = function() {
     } else {
       return Buffer.from(this.chunks[1].buf);
     }
+  }
+  if (this.isMultisigOut()){
+    var publicKeys = [];
+    for (var i = 1; i < this.chunks.length - 2; i++) {
+      publicKeys.push(this.chunks[i].buf);
+    }
+    return publicKeys;
   }
   if (this.isPublicKeyHashOut()) {
     return Buffer.from(this.chunks[2].buf);
@@ -1071,6 +1079,9 @@ Script.prototype._getOutputAddressInfo = function() {
   } else if (this.isTaproot()) {
     info.hashBuffer = this.getData();
     info.type = Address.PayToTaproot;
+  } else if (this.isMultisigOut()) {
+    info.type = Address.PayToMutlisigPublicKeyHash;
+    info.hashBuffer = this.getData();
   } else {
     return false;
   }
@@ -1100,7 +1111,7 @@ Script.prototype._getInputAddressInfo = function() {
 
 /**
  * @param {Network=} network
- * @return {Address|boolean} the associated address for this script if possible, or false
+ * @return {Address|boolean} the associated address for this script if possible, or false* @return {Address| Address[] | boolean} the associated address for this script if possible, or false
  */
 Script.prototype.toAddress = function(network) {
   var info = this.getAddressInfo();
@@ -1108,7 +1119,14 @@ Script.prototype.toAddress = function(network) {
     return false;
   }
   info.network = Networks.get(network) || this._network || Networks.defaultNetwork;
-  return new Address(info);
+  if (info.type === Address.PayToMutlisigPublicKeyHash) {
+    return info.hashBuffer.map(function (buf) {
+      var pk = new PublicKey(buf);
+      return pk.toAddress(info.network);
+    })
+  }
+  else
+    return new Address(info);
 };
 
 /**

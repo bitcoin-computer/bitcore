@@ -951,6 +951,15 @@ describe('Script', function() {
     var liveAddress = pubkey.toAddress(Networks.livenet);
     var testAddress = pubkey.toAddress(Networks.testnet);
 
+    var publicKeys = [
+      new PublicKey('038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508'),
+      new PublicKey('02ba306c47c75a15d4070a59f53e68bd0b7af5511b5297eaf2a8e92b30493bbb9e'),
+      new PublicKey('03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640')
+    ]
+
+    var address = publicKeys.map(pk => Address.fromPublicKey(pk, 'testnet'))
+    var addressStr = address.map(a => a.toString())
+    
     it('priorize the network argument', function() {
       var script = new Script(liveAddress);
       script.toAddress(Networks.testnet).toString().should.equal(testAddress.toString());
@@ -1019,7 +1028,42 @@ describe('Script', function() {
       script.toAddress().should.equal(false);
     });
 
+    it('works for a bare multisig output scriot', function() { 
+      var script = new Script('512102ba306c47c75a15d4070a59f53e68bd0b7af5511b5297eaf2a8e92b30493bbb9e51ae')
+      script.toASM().should.equal('OP_1 02ba306c47c75a15d4070a59f53e68bd0b7af5511b5297eaf2a8e92b30493bbb9e OP_1 OP_CHECKMULTISIG')
+      script.isMultisigOut().should.equal(true)
+      
+      var address = script.toAddress('testnet').toString()
+      address.should.equal('moLx4ZMZvDX4nGvxwLbngq6Q7MpqFEnxTH')       
+    });
+
+    it('works with an 2 of 2 multisig output script', function() {
+      var script = Script(`OP_2 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} OP_2 OP_CHECKMULTISIG`)
+      script.isMultisigOut().should.equal(true);
+      var addresses = script.toAddress('testnet')
+
+      addresses[0].toString().should.equal(addressStr[0])
+      addresses[1].toString().should.equal(addressStr[1]);
+    });
+
+    it('works with an 1 of 2 multisig output script', function() {
+      var script = Script(`OP_1 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} OP_2 OP_CHECKMULTISIG`)
+      script.isMultisigOut().should.equal(true);
+      var addresses = script.toAddress('testnet')
+      addresses[0].toString().should.equal(addressStr[0])
+      addresses[1].toString().should.equal(addressStr[1]);
+    });
+
+    it('works with an 2 of 3 multisig output script', function() {
+      var script = Script(`OP_2 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} 21 0x${publicKeys[2]} OP_3 OP_CHECKMULTISIG`)      
+      script.isMultisigOut().should.equal(true);
+      var addresses = script.toAddress('testnet')
+      addresses[0].toString().should.equal(addressStr[0])
+      addresses[1].toString().should.equal(addressStr[1]);
+      addresses[2].toString().should.equal(addressStr[2]);
+    });
   });
+
   describe('equals', function() {
     it('returns true for same script', function() {
       Script('OP_TRUE').equals(Script('OP_TRUE')).should.equal(true);

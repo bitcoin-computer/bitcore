@@ -1065,7 +1065,7 @@ Script.prototype._getOutputAddressInfo = function() {
     info.hashBuffer = this.getData();
     info.type = Address.PayToWitnessPublicKeyHash;
   } else if (this.isMultisigOut()) {
-    info.type = Address.PayToMutlisigPublicKeyHash;
+    info.type = Address.PayToBareMultisig;
     info.hashBuffer = this.getData();
   } else {
     return false;
@@ -1096,7 +1096,7 @@ Script.prototype._getInputAddressInfo = function() {
 
 /**
  * @param {Network=} network
- * @return {Address| Address[] | boolean} the associated address for this script if possible, or false
+ * @return {Address|Address[]|boolean} the associated address for this script if possible, or false
  */
 Script.prototype.toAddress = function(network) {
   var info = this.getAddressInfo();
@@ -1104,12 +1104,8 @@ Script.prototype.toAddress = function(network) {
     return false;
   }
   info.network = Networks.get(network) || this._network || Networks.defaultNetwork;
-  if (info.type === Address.PayToMutlisigPublicKeyHash) {
-    return info.hashBuffer.map(function (buf) {
-      var pk = new PublicKey(buf);
-      return pk.toAddress(info.network);
-    })
-  }
+  if (info.type === Address.PayToBareMultisig) 
+    return info.hashBuffer.map(buf => new PublicKey(buf).toAddress(info.network));
   else
     return new Address(info);
 };

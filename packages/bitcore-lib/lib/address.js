@@ -134,7 +134,7 @@ Address.PayToWitnessScriptHash = 'witnessscripthash';
 /** @static */
 Address.PayToTaproot = 'taproot';
 /** @static */
-Address.PayToMutlisigPublicKeyHash = 'multisigPubkeyhash';
+Address.PayToBareMultisig = 'bareMultisig';
 
 
 /**

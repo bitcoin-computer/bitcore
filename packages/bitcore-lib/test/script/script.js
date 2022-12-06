@@ -951,6 +951,14 @@ describe('Script', function() {
     var liveAddress = pubkey.toAddress(Networks.livenet);
     var testAddress = pubkey.toAddress(Networks.testnet);
 
+    var publicKeys = [
+      new PublicKey('038282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508'),
+      new PublicKey('02ba306c47c75a15d4070a59f53e68bd0b7af5511b5297eaf2a8e92b30493bbb9e'),
+      new PublicKey('03363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640')
+    ]
+
+    var addresses = publicKeys.map(pk => Address.fromPublicKey(pk, 'testnet'))
+
     it('priorize the network argument', function() {
       var script = new Script(liveAddress);
       script.toAddress(Networks.testnet).toString().should.equal(testAddress.toString());
@@ -1015,6 +1023,39 @@ describe('Script', function() {
       script.toAddress().should.equal(false);
     });
 
+    it('works for a bare 1 of 1 multisig output script', function() { 
+      var script = Script(`OP_1 21 0x${publicKeys[0]} OP_1 OP_CHECKMULTISIG`)
+      script.isMultisigOut().should.equal(true)
+      
+      var addrs = script.toAddress('testnet')
+      addrs[0].should.deep.equal(addresses[0])      
+    });
+
+    it('works for a bare 2 of 2 multisig output script', function() {
+      var script = Script(`OP_2 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} OP_2 OP_CHECKMULTISIG`)
+      script.isMultisigOut().should.equal(true);
+      var addrs = script.toAddress('testnet')
+
+      addrs[0].should.deep.equal(addresses[0])
+      addrs[1].should.deep.equal(addresses[1]);
+    });
+
+    it('works for a bare 1 of 2 multisig output script', function() {
+      var script = Script(`OP_1 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} OP_2 OP_CHECKMULTISIG`)
+      script.isMultisigOut().should.equal(true);
+      var addrs = script.toAddress('testnet')
+      addrs[0].should.deep.equal(addresses[0])
+      addrs[1].should.deep.equal(addresses[1]);
+    });
+
+    it('works for a bare 2 of 3 multisig output script', function() {
+      var script = Script(`OP_2 21 0x${publicKeys[0]} 21 0x${publicKeys[1]} 21 0x${publicKeys[2]} OP_3 OP_CHECKMULTISIG`)      
+      script.isMultisigOut().should.equal(true);
+      var addrs = script.toAddress('testnet')
+      addrs[0].should.deep.equal(addresses[0])
+      addrs[1].should.deep.equal(addresses[1]);
+      addrs[2].should.deep.equal(addresses[2]);
+    });
   });
   describe('equals', function() {
     it('returns true for same script', function() {

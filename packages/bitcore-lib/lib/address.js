@@ -133,6 +133,9 @@ Address.PayToWitnessPublicKeyHash = 'witnesspubkeyhash';
 Address.PayToWitnessScriptHash = 'witnessscripthash';
 /** @static */
 Address.PayToTaproot = 'taproot';
+/** @static */
+Address.PayToBareMultisig = 'bareMultisig';
+
 
 /**
  * @param {Buffer} hash - An instance of a hash Buffer
